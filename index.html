@@ -37,6 +37,266 @@
     position: relative;
   }
 
+  /* PAGE 1 FRONT PHOTO */
+  .front-photo {
+    position: relative;
+    display: inline-block;
+    margin-top: 20px;
+  }
+  .front-photo img {
+    width: 200px;
+    max-width: 60%;
+    border-radius: 20px;
+    border: 3px solid #fff;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  }
+
+  /* Floating hearts around front photo */
+  .front-heart {
+    position: absolute;
+    font-size: 18px;
+    animation: floatFront 4s linear infinite;
+    opacity: 0.8;
+  }
+  @keyframes floatFront {
+    0% { transform: translateY(0) translateX(0) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(-150px) translateX(50px) rotate(360deg); opacity: 0; }
+  }
+
+  .photos img {
+    width: 45%;
+    max-width: 160px;
+    border-radius: 15px;
+    margin: 5px;
+    border: 3px solid #fff;
+  }
+
+  /* LOVE CARDS */
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 15px;
+    margin-top: 20px;
+  }
+  .card {
+    background: linear-gradient(145deg, #ff6b81, #ff99ac);
+    padding: 20px;
+    border-radius: 20px;
+    font-size: 1rem;
+    font-weight: bold;
+    color: #fff;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    transition: transform 0.3s, box-shadow 0.3s;
+    cursor: default;
+  }
+  .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0,0,0,0.3);
+  }
+
+  /* FLIP CARDS */
+  .flip-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    margin-top: 20px;
+  }
+  .flip-card {
+    perspective: 1000px;
+  }
+  .flip-inner {
+    position: relative;
+    width: 100%;
+    height: 120px;
+    transform-style: preserve-3d;
+    transition: transform 0.6s;
+  }
+  .flip-card.flipped .flip-inner { transform: rotateY(180deg); }
+  .flip-front, .flip-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    background: rgba(255,255,255,0.25);
+    border: 2px solid #fff;
+  }
+  .flip-back {
+    transform: rotateY(180deg);
+    background: #ff4d6d;
+    font-weight: bold;
+  }
+
+  .next-btn {
+    margin-top: 25px;
+    background: #fff;
+    color: #ff4d6d;
+    font-weight: bold;
+  }
+
+  /* FLOATING HEARTS FOR PAGE */
+  .heart {
+    position: fixed;
+    bottom: -20px;
+    font-size: 20px;
+    animation: floatUp 6s linear infinite;
+    opacity: 0.8;
+  }
+  @keyframes floatUp {
+    0% { transform: translateY(0) translateX(0); opacity: 1; }
+    100% { transform: translateY(-110vh) translateX(40px); opacity: 0; }
+  }
+</style>
+</head>
+<body>
+
+<audio id="bgMusic" loop>
+  <source src="love.mp3" type="audio/mpeg">
+</audio>
+
+<!-- PAGE 1 -->
+<div class="page active" id="page1">
+  <h1>Ayomide, My Sunshine ☀️</h1>
+  <p>Hey my baby, my queen, my favorite person ❤️<br>
+  Will you be my Valentine?</p>
+  
+  <div class="front-photo">
+    <img src="ayomide.jpg" alt="Ayomide">
+  </div>
+  
+  <button onclick="startExperience()">YES 💖</button>
+  <button id="noBtn">NO 🙄</button>
+</div>
+
+<!-- PAGE 2 -->
+<div class="page" id="page2">
+  <h1>Of course you said YES 😍</h1>
+  <p>Yes, I knew you’d be my Val, my love.<br>
+  Ayomide, you make my world brighter. I love you so much ❤️</p>
+
+  <div class="photos">
+    <img src="photo1.jpg" alt="Us 1">
+    <img src="photo2.jpg" alt="Us 2">
+  </div>
+
+  <button class="next-btn" onclick="nextPage(3)">Next ➡️</button>
+</div>
+
+<!-- PAGE 3 -->
+<div class="page" id="page3">
+  <h1>Love Cards for You 💌</h1>
+  <div class="cards">
+    <div class="card">You are my safe place, my peace, my joy.</div>
+    <div class="card">Loving you feels easy. Choosing you feels right.</div>
+    <div class="card">Every smile of yours is a reminder of why I love you.</div>
+    <div class="card">No matter the distance or noise of the world, I choose you.</div>
+  </div>
+
+  <button class="next-btn" onclick="nextPage(4)">Next ➡️</button>
+</div>
+
+<!-- PAGE 4 -->
+<div class="page" id="page4">
+  <h1>Pick Your Valentine Gift 🎁</h1>
+  <p>Tap ONE card only. Screenshot your pick and send it to me on WhatsApp 😌</p>
+
+  <div class="flip-container" id="giftBox">
+    <div class="flip-card" onclick="flipOnce(this)">
+      <div class="flip-inner">
+        <div class="flip-front">Pick Me 💝</div>
+        <div class="flip-back">₦10,000</div>
+      </div>
+    </div>
+    <div class="flip-card" onclick="flipOnce(this)">
+      <div class="flip-inner">
+        <div class="flip-front">Pick Me 💝</div>
+        <div class="flip-back">₦5,000</div>
+      </div>
+    </div>
+    <div class="flip-card" onclick="flipOnce(this)">
+      <div class="flip-inner">
+        <div class="flip-front">Pick Me 💝</div>
+        <div class="flip-back">₦2,000</div>
+      </div>
+    </div>
+    <div class="flip-card" onclick="flipOnce(this)">
+      <div class="flip-inner">
+        <div class="flip-front">Pick Me 💝</div>
+        <div class="flip-back">₦3,000</div>
+      </div>
+    </div>
+  </div>
+
+  <button class="next-btn" onclick="openWhatsApp()">Send Screenshot on WhatsApp 📲</button>
+</div>
+
+<script>
+let giftPicked = false;
+
+function startExperience() {
+  document.getElementById('bgMusic').play();
+  nextPage(2);
+  startHearts();        // floating hearts for whole page
+  startFrontHearts();   // floating hearts around Ayomide photo
+}
+
+function nextPage(num) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page' + num).classList.add('active');
+}
+
+function flipOnce(card) {
+  if (giftPicked) return;
+  giftPicked = true;
+  card.classList.add('flipped');
+}
+
+function openWhatsApp() {
+  window.open("https://wa.me/2348104602318", "_blank"); // CHANGE NUMBER
+}
+
+const noBtn = document.getElementById('noBtn');
+noBtn.addEventListener('mouseenter', () => {
+  const x = Math.random() * 200 - 100;
+  const y = Math.random() * 200 - 100;
+  noBtn.style.transform = `translate(${x}px, ${y}px)`;
+});
+
+function startHearts() {
+  setInterval(() => {
+    const heart = document.createElement('div');
+    heart.className = 'heart';
+    heart.innerText = '❤️';
+    heart.style.left = Math.random() * 100 + 'vw';
+    heart.style.fontSize = Math.random() * 20 + 15 + 'px';
+    document.body.appendChild(heart);
+    setTimeout(() => heart.remove(), 6000);
+  }, 500);
+}
+
+function startFrontHearts() {
+  const photo = document.querySelector('.front-photo');
+  setInterval(() => {
+    const heart = document.createElement('div');
+    heart.className = 'front-heart';
+    heart.innerText = '💖';
+    heart.style.left = Math.random() * (photo.offsetWidth - 20) + 'px';
+    heart.style.top = Math.random() * 20 + 'px';
+    photo.appendChild(heart);
+    setTimeout(() => heart.remove(), 4000);
+  }, 400);
+}
+</script>
+
+</body>
+</html>    position: relative;
+  }
+
   .photos img {
     width: 45%;
     max-width: 160px;
